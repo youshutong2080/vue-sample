@@ -1,6 +1,6 @@
 <template>
   <Layout class="layout">
-    <Sider hide-trigger breakpoint="md" collapsible :width="230" :collapsed-width="64" v-model="isCollapsed">
+    <Sider hide-trigger breakpoint="md" collapsible :width="230" :collapsed-width="64" :style="{background: theme === 'dark' ? '#495060' : '#f3f3f3'}" v-model="isCollapsed">
       <sider-menu
       @on-select="handleChange"
       :menu-list="menuList"
@@ -15,10 +15,10 @@
     <Layout>
       <Header class="header-con">
         <header-nav :isCollapsed="isCollapsed" :breadcrumb-list="breadcrumbList" @on-change="handleCollapsedChange">
-          <user-avatar></user-avatar>
+          <user-avatar @on-theme-change="handleThemeChange" @on-color-change="handleColorChange"></user-avatar>
         </header-nav>
       </Header>
-      <Content style="margin-top: 2px;">
+      <Content style="margin-top: 2px;" :style="{color: color}">
         <Layout>
           <Content>
             <router-view></router-view>
@@ -46,7 +46,9 @@ export default {
   data () {
     return {
       isCollapsed: false,
-      theme: 'dark'
+      theme: 'dark',
+      isFullScreen: false,
+      color: 'black'
     }
   },
   methods: {
@@ -58,6 +60,12 @@ export default {
     },
     handleCollapsedChange () {
       this.isCollapsed = !this.isCollapsed
+    },
+    handleThemeChange (theme) {
+      this.theme = theme
+    },
+    handleColorChange (color) {
+      this.color = color
     }
   },
   watch: {

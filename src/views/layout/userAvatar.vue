@@ -1,8 +1,8 @@
 <template>
   <div class="user-avatar-con">
-    <div class="screen-con">
-      <Tooltip content="放大屏幕">
-        <Icon type="arrow-expand" :size="26"></Icon>
+    <div class="screen-con" v-if="showFullScreenBtn" @click="handleScreenChange">
+      <Tooltip :content="isScreenFull ? '退出全屏' : '全屏'">
+        <Icon :type="isScreenFull ? 'arrow-shrink' : 'arrow-expand'" :size="26"></Icon>
       </Tooltip>
     </div>
     <div class="lock-con">
@@ -11,11 +11,11 @@
       </Tooltip>
     </div>
     <div class="theme-con">
-      <Dropdown>
-        <Icon type="android-color-palette" :size="26"></Icon>
+      <Dropdown @on-click="handleThemeChange">
+        <Icon type="android-color-palette" :color="themeColor" :size="26"></Icon>
         <DropdownMenu slot="list">
           <DropdownItem v-for="(item, index) in themeList" :key="index" :name="item.name">
-            <span style="padding-right: 14px;"><Icon :size="22" :type="item.name.substr(0, 1) !== 'b' ? 'happy-outline' : 'happy'" :color="item.menu"></Icon></span>
+            <span style="padding-right: 14px;"><Icon :size="22" :type="item.name.substr(0, 5) !== 'black' ? 'happy-outline' : 'happy'" :color="item.menu"></Icon></span>
             <span><Icon :size="22" type="record" :color="item.element"/></span>
           </DropdownItem>
         </DropdownMenu>
@@ -30,7 +30,7 @@
       </Tooltip>
     </div>
     <Dropdown class="avatar">
-      <span>wangjun5</span>
+      <span>右书僮</span>
       <Avatar icon="person"></Avatar>
       <DropdownMenu slot="list">
         <DropdownItem name="ownSpace">个人中心</DropdownItem>
@@ -51,6 +51,8 @@ export default {
   },
   data () {
     return {
+      isScreenFull: false,
+      themeColor: 'default',
       themeList: [
         { name: 'black_b', menu: '#495060', element: '#2d8cf0' },
         { name: 'black_g', menu: '#495060', element: '#00a854' },
@@ -61,6 +63,49 @@ export default {
         { name: 'light_y', menu: '#495060', element: '#e96500' },
         { name: 'light_r', menu: '#495060', element: '#e43e31' }
       ]
+    }
+  },
+  methods: {
+    handleScreenChange () {
+      let main = document.body
+      if (this.isScreenFull) {
+        if (document.exitFullscreen) {
+          document.exitFullscreen()
+        } else if (document.mozCancelFullScreen) {
+          document.mozCancelFullScreen()
+        } else if (document.webkitCancelFullScreen) {
+          document.webkitCancelFullScreen()
+        } else if (document.msExitFullscreen) {
+          document.msExitFullscreen()
+        }
+      } else {
+        if (main.requestFullscreen) {
+          main.requestFullscreen()
+        } else if (main.mozRequestFullScreen) {
+          main.mozRequestFullScreen()
+        } else if (main.webkitRequestFullScreen) {
+          main.webkitRequestFullScreen()
+        } else if (main.msRequestFullscreen) {
+          main.msRequestFullscreen()
+        }
+      }
+      this.isScreenFull = !this.isScreenFull
+    },
+    handleThemeChange (theme) {
+      // let menuTheme = theme.substr(0, 5)
+      let themeObj = this.themeList.filter(item => {
+        if (item.name === theme) {
+          this.themeColor = item.element
+          return item
+        }
+      })[0]
+      this.$emit('on-theme-change', themeObj.name.substr(0, 1) === 'b' ? 'dark' : 'light')
+      this.$emit('on-color-change', themeObj.element)
+    }
+  },
+  computed: {
+    showFullScreenBtn () {
+      return window.navigator.userAgent.indexOf('MSIE') < 0
     }
   }
 }
