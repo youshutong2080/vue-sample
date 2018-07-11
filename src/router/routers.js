@@ -93,5 +93,26 @@ export default [
         meta: { hidden: false, title: '用户配置' }
       }
     ]
+  },
+  {
+    path: '/other',
+    name: 'other',
+    component: LayOut,
+    redirect: { name: 'ownspace' },
+    meta: { hidden: true, title: '其它' },
+    children: [
+      {
+        path: 'ownspace',
+        name: 'ownspace',
+        component: () => import('../views/other/ownSpace.vue'),
+        meta: { hidden: false, title: '个人中心' }
+      },
+      {
+        path: 'message',
+        name: 'message',
+        component: () => import('../views/other/messageTip.vue'),
+        meta: { hidden: false, title: '消息中心' }
+      }
+    ]
   }
 ]

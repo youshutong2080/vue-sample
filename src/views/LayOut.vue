@@ -6,7 +6,7 @@
       :menu-list="menuList"
       :isCollapsed="isCollapsed"
       :theme="theme">
-        <div class="logo" slot="logo">
+        <div class="logo" slot="logo" @click="handleIndex">
           <img v-show="!isCollapsed" src="../assets/images/logo.png" key="max-logo" />
           <img v-show="isCollapsed" src="../assets/images/logo.png" key="min-logo" />
         </div>
@@ -55,6 +55,10 @@ export default {
     ...mapMutations([
       'setBreadcrumbList'
     ]),
+    handleIndex () {
+      console.log('index')
+      this.$router.push({ name: 'page' })
+    },
     handleChange (name) {
       this.$router.push({ name: name })
     },
@@ -103,6 +107,9 @@ export default {
     img {
       width: 40px;
       margin: 12px auto;
+    }
+    img:hover {
+      cursor: pointer;
     }
   }
 }

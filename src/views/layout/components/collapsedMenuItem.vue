@@ -3,7 +3,7 @@
     <template v-for="(item, index) in menuList">
       <Dropdown transfer v-if="item.children && item.children.length > 1" placement="right-start" @on-click="changeMenu" :key="index">
         <Button type="text" style="width: 64px; padding: 10px 0;">
-          <Icon :type="item.icon" :size="20" :color="theme === 'dark' ? '#000' : '#fff'"></Icon>
+          <Icon :type="item.icon" :size="20" :color="theme === 'dark' ? 'white' : 'black'"></Icon>
         </Button>
         <DropdownMenu slot="list">
           <template v-for="(child, id) in item.children">
@@ -16,7 +16,7 @@
       </Dropdown>
       <Dropdown transfer v-else placement="right-start" @on-click="changeMenu" :key="index">
         <Button type="text" style="width: 64px; padding: 10px 0;">
-          <Icon :type="item.icon || item.children[0].icon" :size="20" :color="theme === 'dark' ? '#000' : '#fff'"></Icon>
+          <Icon :type="item.icon || item.children[0].icon" :size="20" :color="theme === 'dark' ? 'white' : 'black'"></Icon>
         </Button>
         <DropdownMenu slot="list">
           <DropdownItem :name="item.name || item.children[0].name" :key="index">
@@ -34,7 +34,7 @@ export default {
   name: 'collapsed-menu',
   props: {
     theme: {
-      type: Array
+      type: String
     },
     menuList: {
       type: Array

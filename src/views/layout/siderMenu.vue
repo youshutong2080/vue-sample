@@ -2,7 +2,7 @@
   <div class="sider-menu-wrapper">
     <slot name="logo"></slot>
     <expand-menu-item v-if="!isCollapsed" :menu-list="menuList" :theme="theme" @on-select="handleSelect"></expand-menu-item>
-    <collapsed-menu-item v-else :menu-list="menuList" @on-select="handleSelect"></collapsed-menu-item>
+    <collapsed-menu-item v-else :menu-list="menuList" :theme="theme" @on-select="handleSelect"></collapsed-menu-item>
   </div>
 </template>
 

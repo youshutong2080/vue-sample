@@ -21,7 +21,7 @@
         </DropdownMenu>
       </Dropdown>
     </div>
-    <div class="notice-con">
+    <div class="notice-con" @click="handleMessageBox">
       <Tooltip v-if="messageCount > 0" :content="`您有${messageCount}条未读消息`" placement="bottom">
         <Icon type="ios-bell" :size="26"></Icon>
       </Tooltip>
@@ -29,7 +29,7 @@
         <Icon type="ios-bell" :size="26"></Icon>
       </Tooltip>
     </div>
-    <Dropdown class="avatar">
+    <Dropdown class="avatar" @on-click="handleUserOption">
       <span>右书僮</span>
       <Avatar icon="person"></Avatar>
       <DropdownMenu slot="list">
@@ -101,6 +101,14 @@ export default {
       })[0]
       this.$emit('on-theme-change', themeObj.name.substr(0, 1) === 'b' ? 'dark' : 'light')
       this.$emit('on-color-change', themeObj.element)
+    },
+    handleUserOption (name) {
+      if (name === 'ownSpace') {
+        this.$router.push({name: 'ownspace'})
+      }
+    },
+    handleMessageBox () {
+      this.$router.push({name: 'message'})
     }
   },
   computed: {
